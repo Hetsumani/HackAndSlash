@@ -57,6 +57,7 @@ export default class Jugador {
     this.ajusteTiempo = 1000 / this.FPS; // Duración (ms) de cada frame'
     this.caerEstilo = false;
     this.direccionCaida = 0;
+    this.anchoColisionador = this.anchoSprite - 10; // Ancho del cuerpo de colisión
 
 
     // ───────────── Propiedades físicas ───────────────
@@ -75,15 +76,15 @@ export default class Jugador {
     this.cuerpo = Matter.Bodies.rectangle(
       this.x + this.anchoSprite / 2, // Centrado en X
       this.y + this.altoSprite / 2,   // Centrado en Y
-      this.anchoSprite,               // Ancho del cuerpo
+      this.anchoColisionador,               // Ancho del cuerpo
       this.altoSprite,                // Alto del cuerpo
       {
         label: "jugador",
         inertia: Infinity,         // bloquea la rotación
-        friction: 0.008,             // deslizamiento lateral
+        friction: 0.02,             // deslizamiento lateral
         frictionAir: 0.02,         // “peso” en el aire
-        restitution: 0.0,           // sin rebote
-        width: this.anchoSprite, // Ancho del cuerpo
+        restitution: 0.01,           // sin rebote
+        width: this.anchoColisionador, // Ancho del cuerpo
         height: this.altoSprite, // Alto del cuerpo
       }
     );

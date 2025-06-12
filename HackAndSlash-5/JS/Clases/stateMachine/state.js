@@ -92,19 +92,16 @@ export class ParadoIzq extends State {
   // garantizando que la animación coincida con el movimiento real.
   // ─────────────────────────────────────────────────────────────────────────
   handleInput(input) {
-    // ── Transiciones detonadas DIRECTAMENTE por teclado ──
-    if (input === 'PRESS right') this.jugador.setState(states.CAMINAR_DER);
-    else if (input === 'PRESS down') this.jugador.setState(states.AGACHADO_IZQ);
-    else if (input === 'PRESS left') this.jugador.setState(states.CAMINAR_IZQ);
-    else if (input === 'PRESS up') {   // Saltar
+    if (input.ArrowRight){
+      this.jugador.setState(states.CAMINAR_DER);
+    } else if (input.ArrowLeft){
+      this.jugador.setState(states.CAMINAR_IZQ);
+    } else if (input.ArrowDown){
+      this.jugador.setState(states.AGACHADO_IZQ);
+    } else if (input.ArrowUp){
       this.jugador.saltando = true;
       this.jugador.setState(states.SALTAR_IZQ);
-    }
-
-    // ── Corrección basada en física: si ya hay velocidad, no debería estar Idle ──
-    if (this.jugador.velocidad < 0 && !this.caerEstilo) {
-      this.jugador.setState(states.CAMINAR_IZQ);
-    }
+    }    
   }
 }
 
@@ -126,17 +123,16 @@ export class ParadoDer extends State {
   }
 
   handleInput(input) {
-    // Entradas de usuario que provocan cambio de estado
-    if (input === 'PRESS left') this.jugador.setState(states.CAMINAR_IZQ);
-    else if (input === 'PRESS down') this.jugador.setState(states.AGACHADO_DER);
-    else if (input === 'PRESS right') this.jugador.setState(states.CAMINAR_DER);
-    else if (input === 'PRESS up') {
+    if (input.ArrowRight){
+      this.jugador.setState(states.CAMINAR_DER);
+    } else if (input.ArrowLeft){
+      this.jugador.setState(states.CAMINAR_IZQ);
+    } else if (input.ArrowDown){
+      this.jugador.setState(states.AGACHADO_DER);
+    } else if (input.ArrowUp){
       this.jugador.saltando = true;
       this.jugador.setState(states.SALTAR_DER);
     }
-
-    // Ajuste de coherencia con la física (por ejemplo, empujones)
-    if (this.jugador.velocidad > 0 && !this.caerEstilo) this.jugador.setState(states.CAMINAR_DER);
   }
 }
 
@@ -157,9 +153,9 @@ export class AgachadoDer extends State {
   }
 
   handleInput(input) {
-    if (input === 'PRESS left') this.jugador.setState(states.CAMINAR_IZQ);
-    else if (input === 'PRESS right') this.jugador.setState(states.CAMINAR_DER);
-    else if (input === 'RELEASE down') this.jugador.setState(states.PARADO_DER);
+    if (!input.ArrowDown){
+      this.jugador.setState(states.PARADO_DER);
+    }    
   }
 }
 
@@ -176,9 +172,9 @@ export class AgachadoIzq extends State {
   }
 
   handleInput(input) {
-    if (input === 'PRESS right') this.jugador.setState(states.CAMINAR_DER);
-    else if (input === 'PRESS left') this.jugador.setState(states.CAMINAR_IZQ);
-    else if (input === 'RELEASE down') this.jugador.setState(states.PARADO_IZQ);
+    if (!input.ArrowDown){
+      this.jugador.setState(states.PARADO_IZQ);
+    }    
   }
 }
 
@@ -206,13 +202,13 @@ export class CaminarIzq extends State {
     });
   }
   handleInput(input) {
-    if (input === 'PRESS right') this.jugador.setState(states.CAMINAR_DER);
-    else if (input === 'PRESS down') this.jugador.setState(states.AGACHADO_IZQ);
-    else if (input === 'RELEASE left') this.jugador.setState(states.PARADO_IZQ);
-    else if (input === 'PRESS up') {
+    if (input.ArrowRight) this.jugador.setState(states.CAMINAR_DER);
+    else if (input.ArrowDown) this.jugador.setState(states.AGACHADO_IZQ);
+    else if (!input.ArrowLeft) this.jugador.setState(states.PARADO_IZQ);
+    else if (input.ArrowUp) {
       this.jugador.saltando = true;
       this.jugador.setState(states.SALTAR_IZQ);
-    }
+    }    
   }
 
   // Se ejecuta al abandonar el estado; detiene velocidad si no fue salto
@@ -243,13 +239,13 @@ export class CaminarDer extends State {
   }
 
   handleInput(input) {
-    if (input === 'PRESS left') this.jugador.setState(states.CAMINAR_IZQ);
-    else if (input === 'PRESS down') this.jugador.setState(states.AGACHADO_DER);
-    else if (input === 'RELEASE right') this.jugador.setState(states.PARADO_DER);
-    else if (input === 'PRESS up') {
+    if (input.ArrowLeft) this.jugador.setState(states.CAMINAR_IZQ);
+    else if (input.ArrowDown) this.jugador.setState(states.AGACHADO_DER);
+    else if (!input.ArrowRight) this.jugador.setState(states.PARADO_DER);
+    else if (input.ArrowUp) {
       this.jugador.saltando = true;
       this.jugador.setState(states.SALTAR_DER);
-    }
+    }    
   }
 
   exit() {
@@ -284,7 +280,7 @@ export class SaltarIzq extends State {
     if (this.jugador.cuerpo.velocity.y > 0)
       this.jugador.setState(states.CAER_IZQ);
     // Si se libera la tecla derecha mientras se salta, activar caída con estilo
-    else if (input === 'PRESS right') {
+    else if (input.ArrowRight) {
       this.jugador.setState(states.CAER_DER);
     }
   }
@@ -311,7 +307,7 @@ export class SaltarDer extends State {
   handleInput(input) {
     if (this.jugador.cuerpo.velocity.y > 0)
       this.jugador.setState(states.CAER_DER);
-    else if (input === 'PRESS left') {
+    else if (input.ArrowLeft) {
       this.jugador.setState(states.CAER_IZQ);
     }
 
@@ -343,7 +339,7 @@ export class CaerIzq extends State {
     if (this.jugador.enSuelo()) {
       this.jugador.setState(states.PARADO_IZQ);
     }
-    else if (input === 'PRESS right') {
+    else if (input.ArrowRight) {
       this.jugador.setState(states.CAER_DER);
     }
   }
@@ -371,7 +367,7 @@ export class CaerDer extends State {
     if (this.jugador.enSuelo()) {
       this.jugador.setState(states.PARADO_DER);
     }
-    else if (input === 'PRESS left') {
+    else if (input.ArrowLeft) {
       this.jugador.setState(states.CAER_IZQ);
     }
   }
