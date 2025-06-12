@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="40" height="23" tilewidth="16" tileheight="16" infinite="0" nextlayerid="6" nextobjectid="3">
  <editorsettings>
-  <export target="../../../HackAndSlash-4/Assets/Mapas/Mapa1.json" format="json"/>
+  <export target="Mapa1.json" format="json"/>
  </editorsettings>
  <tileset firstgid="1" name="Green" tilewidth="16" tileheight="16" tilecount="625" columns="25">
   <image source="../../../../../Semana 6/Dark Forest 1.0/Tiles/Green.png" width="400" height="400"/>
