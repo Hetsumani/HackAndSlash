@@ -27,6 +27,16 @@ class MundoFisico {
             evt.pairs.forEach(p => {
                 const a = p.bodyA;
                 const b = p.bodyB;
+
+                const esJugadorFantasma =
+                    (a.label === "jugador" && b.label === "fantasma") ||
+                    (a.label === "fantasma" && b.label === "jugador");
+
+                if (esJugadorFantasma) {
+                const jugador = a.label === "jugador" ? a.entidad : b.entidad;
+                jugador.recibirDanio?.(1); // llama al método que le resta vida
+                }
+
                 
                 // Lógica para el par (a, b)
                 if (a.label === "hitbox_espada" && b.entidad?.tipo === "enemigo") {
@@ -66,7 +76,5 @@ class MundoFisico {
     }
 
 }
-
-
 
 export default new MundoFisico();   // ← el singleton

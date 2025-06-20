@@ -77,6 +77,8 @@ export default class Jugador {
     // ------------- Inicialización de físcas -------------
     // Añadimos el jugador al mundo físico como un cuerpo estático
     this.cuerpo = Matter.Bodies.rectangle(
+      
+
       this.x + this.anchoSprite / 2, // Centrado en X
       this.y + this.altoSprite / 2,   // Centrado en Y
       this.anchoColisionador,               // Ancho del cuerpo
@@ -91,6 +93,10 @@ export default class Jugador {
         height: this.altoSprite, // Alto del cuerpo
       }
     );
+
+    this.cuerpo.label = "jugador";
+    this.cuerpo.entidad = this;
+
     Matter.Body.setStatic(this.cuerpo, false); // Hacerlo dinámico
     // Añadimos el cuerpo al mundo
     Matter.World.add(this.mundo, this.cuerpo);
@@ -194,5 +200,8 @@ export default class Jugador {
       }
     });
   }
+  
+  recibirDanio(danio) {
+  global.perderVida();
 }
-
+}
