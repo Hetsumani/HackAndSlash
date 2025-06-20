@@ -25,7 +25,9 @@ window.onload = function () {
     const mapa = new Mapa();
     let jugador = null; // Inicializado después de cargar el mapa
 
-    jugador = new Jugador(gameWidth, gameHeight);    
+    jugador = new Jugador(gameWidth, gameHeight);  
+    window.jugador = jugador;
+
 
     const input = new InputHandler();
 
